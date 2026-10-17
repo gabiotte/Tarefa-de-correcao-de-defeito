@@ -20,7 +20,7 @@ def validar(itens, estoque, desconto_percentual):
             raise ValueError('SKU inválido')
         if not inteiro(preco) or preco < 0:
             raise ValueError('Preço inválido')
-        if not inteiro(quantidade) or quantidade < 0:
+        if not inteiro(quantidade) or quantidade <= 0:
             raise ValueError('Quantidade inválida')
 
 
@@ -28,6 +28,8 @@ def conferir_estoque(itens, estoque):
     solicitados = {}
     for item in itens:
         sku = item['sku']
+        if sku in solicitados.keys():
+            solicitados[sku] =+ item['quantidade']
         solicitados[sku] = item['quantidade']
     for sku, quantidade in solicitados.items():
         if quantidade > estoque[sku]:
